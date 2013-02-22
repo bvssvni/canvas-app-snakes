@@ -1,0 +1,38 @@
+* Completed on same day.
++ Completed on later day.
+- Decided against on later day.
+
+22.02.2012
+
+Repository.
+*Remove utils.js.
+*Menus in own file.
+*Fruit in own file.
+*Respond directly to the keypress.
+*Collision methods shall take 'snake' as argument.
+*Bug when restarting game.
+*Snake in own file.
+*Collision in own file.
+*Advisor to clean up spaghetti code.
+
+21.02.2012
+
+Change to 16x16 units.
+Do not insert food at the snake.
++Respond directly to the keypress.
+*When clicking "Main Menu", go to main menu.
+*When there is no life left, show "Game Over".
+*Save game state at start of level.
+*Main menu when dying.
+*Continue menu when dying.
+*Show lives left when dying.
+*Move immediately when pressing key.
+*Collide with yourself.
+*Eat fruit.
+*Draw fruit.
+*Place random fruit.
+*Collide with walls.
+*Bug when turning in opposite direction.
+*Move snake.
+*Game menu.
+

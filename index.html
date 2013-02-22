@@ -1,0 +1,105 @@
+<!--
+ 
+ canvas-app - Javascript framework for developing browser apps.
+ BSD license.
+ by Sven Nilsen, 2012
+ http://www.cutoutpro.com
+ 
+ Version: 0.001 in angular degrees version notation
+ http://isprogrammingeasy.blogspot.no/2012/08/angular-degrees-versioning-notation.html
+ 
+ 0.001	Added touchscreen.js.
+ 
+ -->
+
+<!--
+ 
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are met:
+ 
+ 1. Redistributions of source code must retain the above copyright notice, this
+ list of conditions and the following disclaimer.
+ 2. Redistributions in binary form must reproduce the above copyright notice,
+ this list of conditions and the following disclaimer in the documentation
+ and/or other materials provided with the distribution.
+ 
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+ ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ 
+ The views and conclusions contained in the software and documentation are those
+ of the authors and should not be interpreted as representing official policies,
+ either expressed or implied, of the FreeBSD Project.
+
+-->
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+	body {
+		background-color: #000000;
+		margin-left: 0px;
+		margin-top: 0px;
+		text-align: center;
+	}
+	#box {
+		border-style: solid;
+		border-width: 2px;
+		border-color: #707070;
+	}
+</style>
+<meta charset="UTF-8">
+<!-- Import scripts here -->
+<script src="main.js"></script>
+<script src="app/graphics.js"></script>
+<script src="app/timer.js"></script>
+<script src="app/keyboard.js"></script>
+<script src="app/mouse.js"></script>
+<script src="app/touchscreen.js"></script>
+<script src="advisor.js"></script>
+<script src="collision.js"></script>
+<script src="snake.js"></script>
+<script src="fruit.js"></script>
+<script src="menus.js"></script>
+<script>
+	var app = {};
+	function init() {
+		var box = document.getElementById("box");
+		var context = box.getContext("2d");
+		var graphics = typeof(load_graphics) == "function"
+		? load_graphics(box, context) : null;
+		var timer = typeof(load_timer) == "function"
+		? load_timer() : null;
+		var keyboard = typeof(load_keyboard) == "function"
+		? load_keyboard(box) : null;
+		var mouse = typeof(load_mouse) == "function"
+		? load_mouse(box) : null;
+		var touchscreen = typeof(load_touchscreen) == "function"
+		? load_touchscreen(box) : null;
+		
+		app.context = context;
+		app.graphics = graphics;
+		app.timer = timer;
+		app.keyboard = keyboard;
+		app.mouse = mouse;
+		
+		document.app = app;
+		
+		if (load != null) load();
+		if (timer != null && typeof(timer.update) == "function") {
+			window.setInterval(timer.update, 0);
+		}
+	}
+</script>
+</head>
+<body onload="init();">
+<canvas id="box" width="600" height="400" tabindex="1"></canvas>
+</body>
+</html>
