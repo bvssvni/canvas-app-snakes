@@ -1,6 +1,6 @@
 
 var snake = [];
-var units = 10;
+var units = 16;
 var direction = [1, 0];
 // Number of updates between each move.
 var counter = 0;

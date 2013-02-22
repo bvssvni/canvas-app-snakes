@@ -1,6 +1,8 @@
 
 
 function collideWithSnake(snake) {
+	if (game_state != game_state_play) return;
+	
 	var headIndex = snake.length - 1;
 	var head = snake[headIndex];
 	var x = head[0];

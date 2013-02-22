@@ -1,13 +1,29 @@
 
-function addRandomFruit() {
-	var x = Math.floor(Math.random() * game_units_width);
-	var y = Math.floor(Math.random() * game_units_height);
-	fruits.push([x, y]);
+function addRandomFruit(isPositionTakenFunc) {
+	for (var i = 0; i < 10; i++) {
+		var x = Math.floor(Math.random() * game_units_width);
+		var y = Math.floor(Math.random() * game_units_height);
+		if (isPositionTakenFunc(x, y)) continue;
+		
+		fruits.push([x, y]);
+		break;
+	}
+}
+
+function hitSnake(x, y) {
+	for (var i = 0; i < snake.length; i++) {
+		var pos = snake[i];
+		if (pos[0] == x && pos[1] == y) {
+			return true;
+		}
+	}
+	
+	return false;
 }
 
 function loadFruit() {
 	for (var i = 0; i < fruit_count; i++) {
-		addRandomFruit();
+		addRandomFruit(hitSnake);
 	}
 }
 

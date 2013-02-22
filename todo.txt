@@ -4,7 +4,10 @@
 
 22.02.2012
 
-Repository.
+*Bug when colliding into itself.
+*Do not insert food at the snake.
+*Change to 16x16 units.
+*Repository.
 *Remove utils.js.
 *Menus in own file.
 *Fruit in own file.
@@ -17,8 +20,8 @@ Repository.
 
 21.02.2012
 
-Change to 16x16 units.
-Do not insert food at the snake.
++Change to 16x16 units.
++Do not insert food at the snake.
 +Respond directly to the keypress.
 *When clicking "Main Menu", go to main menu.
 *When there is no life left, show "Game Over".
