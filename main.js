@@ -1,4 +1,13 @@
 
+var levels = [1, 5, 10, 20, 40, 50, 60, 80, 100, 120];
+
+var header_height = 16;
+var header_color = "#000000";
+var header_text_color = "#FFFFFF";
+var header_font = "Georgia";
+var header_style = "bold";
+var header_size = 14;
+var level = 0;
 var snake = [];
 var units = 16;
 var direction = [1, 0];
@@ -74,37 +83,18 @@ function resetCounter() {
 	counter = counter_start;
 }
 
-function drawGameOver() {
-	var g = app.graphics;
-	g.setColor(game_over_color);
-	g.setFont(game_over_font, game_over_style, game_over_size);
-	g.print(game_over_text, game_over_pos[0], game_over_pos[1]);
+function drawHeader() {
+	if (game_state != game_state_play) return;
 	
-	drawMenu(menues.mainMenu.text, menues.mainMenu.x, menues.mainMenu.y);
-}
-
-function drawDead() {
-	if (game_state != game_state_die) return;
+	var w = app.graphics.getWidth();
+	app.graphics.setColor(header_color);
+	app.graphics.rectangle("fill", 0, 0, w, header_height);
 	
-	var g = app.graphics;
-	g.setColor(dead_text_color);
-	g.setFont(dead_text_font, dead_text_style, dead_text_size);
+	app.graphics.setFont(header_font, header_style, header_size);
+	app.graphics.setColor(header_text_color);
+	app.graphics.print("Level " + (level+1), 0, header_height - 2);
 	
-	if (lives == 0) {
-		drawGameOver();
-		return;
-	}
-	
-	g.print(dead_text, dead_text_pos[0], dead_text_pos[1]);
-	
-	g.setColor(dead_lives_text_color);
-	g.setFont(dead_lives_text_font, dead_lives_text_style, dead_lives_text_size);
-	g.print(dead_lives_text + lives,
-			dead_lives_text_pos[0],
-			dead_lives_text_pos[1]);
-	
-	drawMenu(menues.continue.text, menues.continue.x, menues.continue.y);
-	drawMenu(menues.mainMenu.text, menues.mainMenu.x, menues.mainMenu.y);
+	app.graphics.print("Lives " + lives, 200, header_height - 2);
 }
 
 function load() {
@@ -121,11 +111,20 @@ function update() {
 }
 
 function draw() {
-	app.graphics.clear("#FFFFFF");
+	app.graphics.clear("#000000");
+	
+	app.graphics.setColor("#FFFFFF");
+	app.graphics.rectangle("fill",
+						   0,
+						   header_height,
+						   units * game_units_width,
+						   units * game_units_height);
+	
 	drawFruit();
 	drawSnake();
 	drawGameMenu();
 	drawDead();
+	drawHeader();
 }
 
 function keypressed(keyCode) {

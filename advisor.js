@@ -3,6 +3,7 @@ function newAdvisor() {
 	return {
 	newGame: false,
 	restartLevel: false,
+	nextLevel: false,
     mainMenu: false,
 	die: false,
 	turn: false
@@ -10,23 +11,23 @@ function newAdvisor() {
 }
 
 function shouldSetDirectionRight(advisor) {
-	return advisor.newGame;
+	return advisor.newGame || advisor.nextLevel;
 }
 
 function shouldStoreLastGameState(advisor) {
-	return advisor.newGame;
+	return advisor.newGame || advisor.nextLevel;
 }
 
 function shouldResetSnake(advisor) {
-	return advisor.newGame;
+	return advisor.newGame || advisor.nextLevel;
 }
 
 function shouldLoadFruit(advisor) {
-	return advisor.newGame;
+	return advisor.newGame || advisor.nextLevel;
 }
 
 function shouldResetCounter(advisor) {
-	return advisor.newGame || advisor.turn;
+	return advisor.newGame || advisor.nextLevel || advisor.turn;
 }
 
 function shouldRestoreLastGameState(advisor) {
@@ -53,7 +54,24 @@ function shouldDecrementLives(advisor) {
 	return advisor.die;
 }
 
+function shouldIncrementLivesWith3(advisor) {
+	return advisor.nextLevel;
+}
+
+function shouldIncrementLevel(advisor) {
+	return advisor.nextLevel;
+}
+
+function shouldResetLevel(advisor) {
+	return advisor.newGame;
+}
+
 function doStuff(advisor) {
+	if (shouldIncrementLevel(advisor))
+		level++;
+	if (shouldResetLevel(advisor))
+		level = 0;
+	
 	if (shouldSetDirectionRight(advisor))
 		direction = [1, 0];
 	if (shouldResetSnake(advisor))
@@ -75,6 +93,8 @@ function doStuff(advisor) {
 		lives = game_start_lives;
 	if (shouldDecrementLives(advisor))
 		lives--;
+	if (shouldIncrementLivesWith3(advisor))
+		lives += 3;
 	if (shouldSetGameStateToDead(advisor))
 		game_state = game_state_die;
 }

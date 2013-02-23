@@ -17,7 +17,7 @@ function drawSnake() {
 		var pos = snake[i];
 		app.graphics.rectangle("fill",
 							   units * pos[0],
-							   units * pos[1],
+							   units * pos[1] + header_height,
 							   units,
 							   units);
 	}

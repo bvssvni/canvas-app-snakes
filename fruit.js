@@ -22,7 +22,9 @@ function hitSnake(x, y) {
 }
 
 function loadFruit() {
-	for (var i = 0; i < fruit_count; i++) {
+	fruit = [];
+	var n = level > levels.length ? fruit_count : levels[level];
+	for (var i = 0; i < n; i++) {
 		addRandomFruit(hitSnake);
 	}
 }
@@ -41,6 +43,13 @@ function eatFruit() {
 		if (pos[0] == x && pos[1] == y) {
 			eat_fruit = true;
 			fruits.splice(i, 1);
+			
+			if (fruits.length == 0) {
+				var advisor = newAdvisor();
+				advisor.nextLevel = true;
+				doStuff(advisor);
+			}
+			
 			return;
 		}
 	}
@@ -55,7 +64,7 @@ function drawFruit() {
 		var pos = fruits[i];
 		app.graphics.rectangle("fill",
 							   units * pos[0],
-							   units * pos[1],
+							   units * pos[1] + header_height,
 							   units,
 							   units);
 	}

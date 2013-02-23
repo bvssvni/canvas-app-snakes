@@ -4,6 +4,12 @@
 
 22.02.2012
 
+*Lives in header.
+*Draw black outside area.
+*Remove border from menus.
+*When all food is eaten, go to next level.
+*Level counter in header.
+*Header.
 *Bug when colliding into itself.
 *Do not insert food at the snake.
 *Change to 16x16 units.
