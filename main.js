@@ -49,7 +49,7 @@ var menu_mouseover_color = "#FF0000";
 var menu_inactive_color = "#0000FF";
 var menues = {
 start: {x: 300, y: 200, text: "Start"},
-continue: {x: 300, y: 300, text: "Continue"},
+tryAgain: {x: 300, y: 300, text: "Try Again"},
 mainMenu: {x: 300, y: 340, text: "Main Menu"}
 };
 var game_units_width = 0;
@@ -58,6 +58,7 @@ var game_units_height = 0;
 var game_state_menu = 0;
 var game_state_play = 1;
 var game_state_die = 2;
+var game_state_next_level = 3;
 var game_state = 0;
 var fruits = [];
 var fruit_count = 20;
@@ -99,7 +100,8 @@ function drawHeader() {
 
 function load() {
 	game_units_width = Math.floor(app.graphics.getWidth() / units);
-	game_units_height = Math.floor(app.graphics.getHeight() / units);
+	var h = app.graphics.getHeight() - header_height;
+	game_units_height = Math.floor(h / units);
 }
 
 function update() {
@@ -124,6 +126,8 @@ function draw() {
 	drawSnake();
 	drawGameMenu();
 	drawDead();
+	drawGameOver();
+	drawNextLevel();
 	drawHeader();
 }
 

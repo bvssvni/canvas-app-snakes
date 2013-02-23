@@ -1,8 +1,10 @@
+"use strict";
 
 function newAdvisor() {
 	return {
 	newGame: false,
 	restartLevel: false,
+	continueNextLevel: false,
 	nextLevel: false,
     mainMenu: false,
 	die: false,
@@ -11,23 +13,23 @@ function newAdvisor() {
 }
 
 function shouldSetDirectionRight(advisor) {
-	return advisor.newGame || advisor.nextLevel;
+	return advisor.newGame || advisor.continueNextLevel;
 }
 
 function shouldStoreLastGameState(advisor) {
-	return advisor.newGame || advisor.nextLevel;
+	return advisor.newGame || advisor.continueNextLevel;
 }
 
 function shouldResetSnake(advisor) {
-	return advisor.newGame || advisor.nextLevel;
+	return advisor.newGame || advisor.continueNextLevel;
 }
 
 function shouldLoadFruit(advisor) {
-	return advisor.newGame || advisor.nextLevel;
+	return advisor.newGame || advisor.continueNextLevel;
 }
 
 function shouldResetCounter(advisor) {
-	return advisor.newGame || advisor.nextLevel || advisor.turn;
+	return advisor.newGame || advisor.continueNextLevel || advisor.turn;
 }
 
 function shouldRestoreLastGameState(advisor) {
@@ -35,7 +37,9 @@ function shouldRestoreLastGameState(advisor) {
 }
 
 function shouldSetGameStateToPlay(advisor) {
-	return advisor.restartLevel || advisor.newGame;
+	return advisor.restartLevel ||
+	advisor.newGame ||
+	advisor.continueNextLevel;
 }
 
 function shouldSetGameStateToMenu(advisor) {
@@ -44,6 +48,10 @@ function shouldSetGameStateToMenu(advisor) {
 
 function shouldSetGameStateToDead(advisor) {
 	return advisor.die;
+}
+
+function shouldSetGameStateToNextLevel(advisor) {
+	return advisor.nextLevel;
 }
 
 function shouldResetLives(advisor) {
@@ -55,11 +63,11 @@ function shouldDecrementLives(advisor) {
 }
 
 function shouldIncrementLivesWith3(advisor) {
-	return advisor.nextLevel;
+	return advisor.continueNextLevel;
 }
 
 function shouldIncrementLevel(advisor) {
-	return advisor.nextLevel;
+	return advisor.continueNextLevel;
 }
 
 function shouldResetLevel(advisor) {
@@ -69,26 +77,33 @@ function shouldResetLevel(advisor) {
 function doStuff(advisor) {
 	if (shouldIncrementLevel(advisor))
 		level++;
-	if (shouldResetLevel(advisor))
+	if (shouldResetLevel(advisor)) {
 		level = 0;
+	}
 	
 	if (shouldSetDirectionRight(advisor))
 		direction = [1, 0];
 	if (shouldResetSnake(advisor))
 		resetSnake();
-	if (shouldLoadFruit(advisor))
+	if (shouldLoadFruit(advisor)) {
 		loadFruit();
-	if (shouldStoreLastGameState(advisor))
+	}
+	if (shouldStoreLastGameState(advisor)) {
 		last_game_state = newGameState(snake, fruits, direction);
+	}
 	if (shouldResetCounter(advisor))
 		counter = counter_start;
 	
-	if (shouldRestoreLastGameState(advisor))
+	if (shouldRestoreLastGameState(advisor)) {
 		restoreGameState(last_game_state);
-	if (shouldSetGameStateToPlay(advisor))
+	}
+	if (shouldSetGameStateToPlay(advisor)) {
 		game_state = game_state_play;
+	}
 	if (shouldSetGameStateToMenu(advisor))
 		game_state = game_state_menu;
+	if (shouldSetGameStateToNextLevel(advisor))
+		game_state = game_state_next_level;
 	if (shouldResetLives(advisor))
 		lives = game_start_lives;
 	if (shouldDecrementLives(advisor))

@@ -1,3 +1,4 @@
+"use strict";
 
 function menuInfo(text, x, y) {
 	var textHeight = menu_size;
@@ -42,8 +43,13 @@ function drawGameMenu() {
 	drawMenu(menues.start.text, menues.start.x, menues.start.y);
 }
 
+function shouldDrawGameOver() {
+	return game_state == game_state_die && lives == 0;
+}
 
 function drawGameOver() {
+	if (!shouldDrawGameOver()) return;
+	
 	var g = app.graphics;
 	g.setColor(game_over_color);
 	g.setFont(game_over_font, game_over_style, game_over_size);
@@ -52,17 +58,27 @@ function drawGameOver() {
 	drawMenu(menues.mainMenu.text, menues.mainMenu.x, menues.mainMenu.y);
 }
 
+function drawNextLevel() {
+	if (game_state != game_state_next_level) return;
+	
+	var g = app.graphics;
+	g.setColor(game_over_color);
+	g.setFont(game_over_font, game_over_style, game_over_size);
+	g.print("Excellent!", game_over_pos[0], game_over_pos[1]);
+	
+	drawMenu("Next Level: " + (level+1), menues.tryAgain.x, menues.tryAgain.y);
+}
+
+function shouldDrawDead() {
+	return game_state == game_state_die && lives > 0;
+}
+
 function drawDead() {
-	if (game_state != game_state_die) return;
+	if (!shouldDrawDead()) return;
 	
 	var g = app.graphics;
 	g.setColor(dead_text_color);
 	g.setFont(dead_text_font, dead_text_style, dead_text_size);
-	
-	if (lives == 0) {
-		drawGameOver();
-		return;
-	}
 	
 	g.print(dead_text, dead_text_pos[0], dead_text_pos[1]);
 	
@@ -72,7 +88,7 @@ function drawDead() {
 			dead_lives_text_pos[0],
 			dead_lives_text_pos[1]);
 	
-	drawMenu(menues.continue.text, menues.continue.x, menues.continue.y);
+	drawMenu(menues.tryAgain.text, menues.tryAgain.x, menues.tryAgain.y);
 	drawMenu(menues.mainMenu.text, menues.mainMenu.x, menues.mainMenu.y);
 }
 
@@ -87,12 +103,26 @@ function clickStartMenu(x, y) {
 	doStuff(advisor);
 }
 
+function clickContinueNextLevelMenu(x, y) {
+	if (game_state != game_state_next_level) return;
+	
+	
+	var info = menuInfo("Next Level: " + (level+1),
+						menues.tryAgain.x,
+						menues.tryAgain.y);
+	if (!info.inside) return;
+	
+	var advisor = newAdvisor();
+	advisor.continueNextLevel = true;
+	doStuff(advisor);
+}
+
 function clickContinueMenu(x, y) {
 	if (game_state != game_state_die) return;
 	
-	var info = menuInfo(menues.continue.text,
-						menues.continue.x,
-						menues.continue.y);
+	var info = menuInfo(menues.tryAgain.text,
+						menues.tryAgain.x,
+						menues.tryAgain.y);
 	if (!info.inside) return;
 	
 	var advisor = newAdvisor();
@@ -116,5 +146,6 @@ function clickMainMenu(x, y) {
 function clickMenu(x, y) {
 	clickStartMenu(x, y);
 	clickContinueMenu(x, y);
+	clickContinueNextLevelMenu(x, y);
 	clickMainMenu(x, y);
 }

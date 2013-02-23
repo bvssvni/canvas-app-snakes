@@ -4,6 +4,9 @@
 
 22.02.2012
 
+*Switch 'Continue' to 'Try Again'.
+*Menu for next level.
+*Bug when game over.
 *Lives in header.
 *Draw black outside area.
 *Remove border from menus.

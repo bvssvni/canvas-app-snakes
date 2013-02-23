@@ -1,3 +1,4 @@
+"use strict";
 
 function addRandomFruit(isPositionTakenFunc) {
 	for (var i = 0; i < 10; i++) {
@@ -22,7 +23,7 @@ function hitSnake(x, y) {
 }
 
 function loadFruit() {
-	fruit = [];
+	fruits = [];
 	var n = level > levels.length ? fruit_count : levels[level];
 	for (var i = 0; i < n; i++) {
 		addRandomFruit(hitSnake);
